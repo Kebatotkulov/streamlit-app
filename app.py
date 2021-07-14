@@ -26,9 +26,10 @@ def make_clickable(link, text):
     return f'<a target="_blank" href="{link}">{text}</a>'
 
 # Data
+counties = alt.topo_feature('https://raw.githubusercontent.com/Sarvar-Anvarov/streamlit-app/main/data/mo.json', 'collection')
+source = 'https://raw.githubusercontent.com/Sarvar-Anvarov/streamlit-app/main/data/salary.csv'
 data = pd.read_csv('data/data.csv')
-z = abs(stats.zscore(data['salary_to'],nan_policy = 'omit'))
-
+z = abs(stats.zscore(data['salary_from'],nan_policy = 'omit'))
 
 # Pages
 with st.sidebar:
@@ -173,9 +174,27 @@ if page=='Интересная статистика':
 
         st.plotly_chart(fig1, use_container_width=True)
         
-        st.write(f"RAM memory % used: {psutil.virtual_memory()[2]}")
-        st.write(f"RAM total: {round(psutil.virtual_memory()[0]/ 1e+6)} MB")
-        st.write(f"current: {psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2}")
+        ## 7
+        multi = alt.selection_multi(fields=['Зарплата','Количество вакансий'], bind='legend')
+        map1=alt.Chart(counties).mark_geoshape(
+            stroke='white'
+        ).encode(
+            color=alt.Color('Зарплата:Q', scale=alt.Scale(scheme="blues")),
+            tooltip=['Зарплата:Q', 'Количество вакансий:Q']
+        ).transform_lookup(
+            lookup='id',
+            from_=alt.LookupData(source, 'id', ['Зарплата', 'Количество вакансий'])
+        ).properties(
+            width=600,
+            height=700
+        ).add_selection(
+            multi
+        ).properties(
+            title=f"Средняя зарплата по округам города {city[0]}"
+        )
+
+
+        st.altair_chart((map1).configure_view(strokeWidth=0), use_container_width=True)
         
         
 
