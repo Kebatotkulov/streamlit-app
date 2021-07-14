@@ -8,7 +8,7 @@ import plotly.express as px
 from longtext import *
 from sentence_transformers import SentenceTransformer
 from scipy import stats
-import psutil
+import psutil, os
 
 # Functions
 @st.cache(allow_output_mutation=True)
@@ -175,6 +175,7 @@ if page=='Интересная статистика':
         
         st.write(f"RAM memory % used: {psutil.virtual_memory()[2]}")
         st.write(f"RAM total: {round(psutil.virtual_memory()[0]/ 1e+6)} MB")
+        st.write(f"current: {psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2}")
         
         
 
