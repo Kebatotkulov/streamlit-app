@@ -14,3 +14,5 @@ dash = f"""
      """
 
 example = 'Пример: умею работать с базами данных, анализировать данные, знаю язык программирования Python, учавствовал в соревнованиях на kaggle, изучаю machine learning'
+
+token='pk.eyJ1Ijoic2FydmFyLWFudmFyb3YiLCJhIjoiY2tyM3YzZGthMnByZTJ2cXB5Z2Q3anNlZCJ9.aa9lhHLjiGx5J31kjX3KaA'
