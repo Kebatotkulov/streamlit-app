@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 import faiss
 import time
 import altair as alt
