@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
 from scipy import stats
 import psutil, os, gc, json
 from warnings import filterwarnings
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.metrics.pairwise import cosine_similarity
 
 filterwarnings('ignore')
 
@@ -28,6 +28,9 @@ def search(query):
 
 def make_clickable(link, text):
     return f'<a target="_blank" href="{link}">{text}</a>'
+
+def cosine_similarity(a,b):
+    return np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
 
 @st.cache(allow_output_mutation=True)
 def load_data(check):
