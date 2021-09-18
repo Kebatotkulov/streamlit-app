@@ -97,7 +97,7 @@ if page=='Поиск вакансий':
     res = data.loc[top_k[1][0]]
     #st.write(np.reshape(vector, (1,768)).shape, np.array([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]]).shape)
     #st.write(cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]], (1,768))))
-    st.write(full.head())
+    st.table(full.head())
     res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768))) for i in full.loc[top_k[1][0]].index]
     
     res['similarity'] = (res['similarity']*100).round(1)
