@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
 from scipy import stats
 import psutil, os, gc, json
 from warnings import filterwarnings
-#from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity
 
 filterwarnings('ignore')
 
@@ -29,8 +29,8 @@ def search(query):
 def make_clickable(link, text):
     return f'<a target="_blank" href="{link}">{text}</a>'
 
-def cosine_similarity(a,b):
-    return np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
+# def cosine_similarity(a,b):
+#     return np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
 
 @st.cache(allow_output_mutation=True)
 def load_data(check):
@@ -95,12 +95,9 @@ if page=='Поиск вакансий':
     
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
-    #st.write(np.reshape(vector, (1,768)).shape, np.array([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]]).shape)
-    #st.write(cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]], (1,768))))
-    st.table(full.loc[top_k[1][0]].index[0])
-    #res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768))) for i in full.loc[top_k[1][0]].index]
     
-    #res['similarity'] = (res['similarity']*100).round(1)
+    res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768))) for i in full.loc[top_k[1][0]].index]
+    res['similarity'] = (res['similarity']*100).round(1)
     res['job'] = res.apply(lambda x: make_clickable(x['alternate_url'], x['name']), axis=1)
     res['published_at'] = res['published_at'].apply(lambda x: str(x)[:10])
     res['description'] = res['description'].apply(lambda x: x[:100]) + '...'
