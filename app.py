@@ -95,9 +95,9 @@ if page=='Поиск вакансий':
     
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
-    st.write(np.reshape(vector, (1,768)).shape, np.array([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]]).shape)
-    st.write(cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]], (1,768))))
-    res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768))[0][0]) for i in full.loc[top_k[1][0]].index]
+    #st.write(np.reshape(vector, (1,768)).shape, np.array([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]]).shape)
+    #st.write(cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[full.loc[top_k[1][0]].index[0]]], (1,768))))
+    res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768))) for i in full.loc[top_k[1][0]].index]
     
     res['similarity'] = (res['similarity']*100).round(1)
     res['job'] = res.apply(lambda x: make_clickable(x['alternate_url'], x['name']), axis=1)
