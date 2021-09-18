@@ -95,7 +95,7 @@ if page=='Поиск вакансий':
     
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
-    st.table(data)
+    st.table(data.tail())
     st.table(res)
 #     st.table(cosine_similarity(np.matrix(vector), np.matrix(full.loc[top_k[1][0]].iloc[0:2])))
 #     st.write(np.matrix(vector).shape, full.loc[top_k[1][0]].shape)
