@@ -107,7 +107,7 @@ if page=='Поиск вакансий':
     df = (
         res
         [(res['salary_from']>=salary[0]) & (res['area']==city[0])  & (res['experience']==exp)]
-        [['job','employer','description','similarity','published_at']].reset_index(drop=True).rename(
+        [['job','employer','description','published_at','similarity']].reset_index(drop=True).rename(
         columns = {'job':'Вакансия',
                    'employer':'Работодатель',
                    'description':'Описание',
