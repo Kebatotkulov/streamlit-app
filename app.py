@@ -96,25 +96,25 @@ if page=='Поиск вакансий':
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
 #    st.write(np.reshape(vector, (1,768)).shape, np.reshape(np.array(full.loc[0]), (1,768)).shape)
-  #  res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768)))[0][0] for i in full.loc[top_k[1][0]].index]
+    res['similarity'] = [cosine_similarity(np.reshape(vector, (1,768)), np.reshape([full.loc[top_k[1][0]].loc[i]], (1,768)))[0][0] for i in full.loc[top_k[1][0]].index]
     
- #   res['similarity'] = (res['similarity']*100).round(1)
+    res['similarity'] = (res['similarity']*100).round(1)
     res['job'] = res.apply(lambda x: make_clickable(x['alternate_url'], x['name']), axis=1)
     res['published_at'] = res['published_at'].apply(lambda x: str(x)[:10])
     res['description'] = res['description'].apply(lambda x: x[:100]) + '...'
     df = (
         res
-#         [(res['salary_from']>=salary[0]) & (res['area']==city[0])  & (res['experience']==exp)]
+        [(res['salary_from']>=salary[0]) & (res['area']==city[0])  & (res['experience']==exp)]
         [['job','employer','description','published_at']].reset_index(drop=True).rename(
         columns = {'job':'Вакансия',
                    'employer':'Работодатель',
                    'description':'Описание',
-                  # 'similarity':'Сходство',
+                   'similarity':'Сходство',
                    'published_at':'Дата публикации',
                   }
         )
-    ).head(10).reset_index(drop=True)#.sort_values('Сходство', ascending=False).head(10).reset_index(drop=True)
-  #  df['Сходство'] = df['Сходство'].astype(str) + '%'
+    ).head(10).reset_index(drop=True).sort_values('Сходство', ascending=False).head(10).reset_index(drop=True)
+    df['Сходство'] = df['Сходство'].astype(str) + '%'
                    
     st.write(df.to_html(escape=False), unsafe_allow_html=True)
 
