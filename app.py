@@ -96,7 +96,7 @@ if page=='Поиск вакансий':
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
     
-    res['similarity'] = cosine_similarity(np.matrix(vector), full)
+    res['similarity'] = cosine_similarity(np.matrix(vector), pd.DataFrame(full))
     res['similarity'] = (res['similarity']*100).round(1)
     res['job'] = res.apply(lambda x: make_clickable(x['alternate_url'], x['name']), axis=1)
     res['published_at'] = res['published_at'].apply(lambda x: str(x)[:10])
