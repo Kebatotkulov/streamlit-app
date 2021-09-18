@@ -95,11 +95,11 @@ if page=='Поиск вакансий':
     
     results, top_k, vector = search(str(text))
     res = data.loc[top_k[1][0]]
-    st.write(top_k[1][0])
-    st.write(data.shape)
-    st.table(cosine_similarity(np.matrix(vector), np.matrix(full.loc[top_k[1][0]].iloc[0:2])))
+    st.table(data)
+    st.table(res)
+#     st.table(cosine_similarity(np.matrix(vector), np.matrix(full.loc[top_k[1][0]].iloc[0:2])))
 #     st.write(np.matrix(vector).shape, full.loc[top_k[1][0]].shape)
-    res['similarity'] = cosine_similarity(np.matrix(vector), np.matrix(full.loc[top_k[1][0]].iloc[:2]))
+    res['similarity'] = cosine_similarity(np.matrix(vector), np.matrix(full.loc[top_k[1][0]]))
     res['similarity'] = (res['similarity']*100).round(1)
     res['job'] = res.apply(lambda x: make_clickable(x['alternate_url'], x['name']), axis=1)
     res['published_at'] = res['published_at'].apply(lambda x: str(x)[:10])
